@@ -1,14 +1,14 @@
 import { useState } from 'react'
 import { ProspectData } from '@/types'
-import { supabaseDb } from '@/services/supabase'
-import { AgentOrchestrator } from '@/agents/orchestrator'
+import { apiService } from '@/services/api'
 import { useAgentStore } from '@/stores/agentStore'
 import toast from 'react-hot-toast'
-import { Loader2 } from 'lucide-react'
+import { Loader2, Check } from 'lucide-react'
 
 export function OnboardingForm() {
-  const [formData, setFormData] = useState<Partial<ProspectData>>({})
+  const [formData, setFormData] = useState<Partial<ProspectData> & { product?: string }>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [lastRequestId, setLastRequestId] = useState<string | null>(null)
   const { isProcessing } = useAgentStore()
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -25,53 +25,26 @@ export function OnboardingForm() {
 
     try {
       // Validate required fields
-      if (!formData.firstName || !formData.email || !formData.documentNumber) {
-        throw new Error('Please fill in all required fields')
+      if (!formData.firstName || !formData.documentNumber || !formData.product) {
+        throw new Error('Please fill in all required fields (Name, Document, Product)')
       }
 
-      // Create prospect
-      const prospect = await supabaseDb.createProspect({
-        first_name: formData.firstName,
-        last_name: formData.lastName,
+      // Call API to start onboarding
+      const response = await apiService.startOnboarding({
+        prospect_name: `${formData.firstName} ${formData.lastName || ''}`.trim(),
+        document_id: formData.documentNumber,
+        product: formData.product,
         email: formData.email,
         phone: formData.phone,
         document_type: formData.documentType,
-        document_number: formData.documentNumber,
-        date_of_birth: formData.dateOfBirth,
-        address: formData.address,
-        city: formData.city,
-        country: formData.country,
-        occupation: formData.occupation,
-        monthly_income: formData.monthlyIncome,
       })
 
-      // Create onboarding request
-      const request = await supabaseDb.createOnboardingRequest({
-        prospect_id: prospect.id,
-        status: 'pending',
-      })
+      if (!response.success) {
+        throw new Error(response.error || 'Failed to start onboarding')
+      }
 
-      // Start orchestration
-      const orchestrator = new AgentOrchestrator(request.id, {
-        id: prospect.id,
-        firstName: formData.firstName || '',
-        lastName: formData.lastName || '',
-        email: formData.email || '',
-        phone: formData.phone || '',
-        documentType: formData.documentType || '',
-        documentNumber: formData.documentNumber || '',
-        dateOfBirth: formData.dateOfBirth || '',
-        address: formData.address || '',
-        city: formData.city || '',
-        country: formData.country || '',
-        occupation: formData.occupation || '',
-        monthlyIncome: formData.monthlyIncome || 0,
-        createdAt: new Date().toISOString(),
-      })
-
-      await orchestrator.executeVerification()
-
-      toast.success('Onboarding request submitted successfully!')
+      setLastRequestId(response.request_id || null)
+      toast.success(response.message)
       setFormData({})
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Failed to submit form'
@@ -245,7 +218,7 @@ export function OnboardingForm() {
           </section>
 
           {/* Professional Information */}
-          <section className="pb-6">
+          <section className="border-b pb-6">
             <h2 className="text-xl font-semibold mb-4 text-gray-800">
               Professional Information
             </h2>
@@ -273,6 +246,33 @@ export function OnboardingForm() {
                   onChange={handleInputChange}
                   className="mt-1 block w-full rounded border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 border px-3 py-2"
                 />
+              </div>
+            </div>
+          </section>
+
+          {/* Product Selection */}
+          <section className="pb-6">
+            <h2 className="text-xl font-semibold mb-4 text-gray-800">
+              Product Selection *
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="md:col-span-2">
+                <label className="block text-sm font-medium text-gray-700">
+                  Select Product
+                </label>
+                <select
+                  name="product"
+                  value={formData.product || ''}
+                  onChange={handleInputChange}
+                  className="mt-1 block w-full rounded border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 border px-3 py-2"
+                  required
+                >
+                  <option value="">Select a product</option>
+                  <option value="cuenta_ahorros">Cuenta de Ahorros (Savings Account)</option>
+                  <option value="credito">Crédito Personal (Personal Credit)</option>
+                  <option value="tarjeta_credito">Tarjeta de Crédito (Credit Card)</option>
+                  <option value="inversion">Inversión (Investment)</option>
+                </select>
               </div>
             </div>
           </section>
