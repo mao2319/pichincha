@@ -19,8 +19,8 @@ export const MCP_SERVERS: Record<string, MCPConfig> = {
     type: 'browser-automation',
     enabled: true,
     config: {
-      apiKey: process.env.VITE_BROWSERBASE_API_KEY,
-      projectId: process.env.VITE_BROWSERBASE_PROJECT_ID,
+      apiKey: import.meta.env.VITE_BROWSERBASE_API_KEY || '',
+      projectId: import.meta.env.VITE_BROWSERBASE_PROJECT_ID || '',
     },
   },
   github: {
@@ -30,7 +30,7 @@ export const MCP_SERVERS: Record<string, MCPConfig> = {
     type: 'code-repository',
     enabled: true,
     config: {
-      token: process.env.VITE_GITHUB_TOKEN,
+      token: import.meta.env.VITE_GITHUB_TOKEN || '',
       owner: 'mao2319',
       repo: 'pichincha',
     },
