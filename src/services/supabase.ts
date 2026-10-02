@@ -11,11 +11,6 @@ console.log('URL:', supabaseUrl)
 console.log('URL length:', supabaseUrl?.length)
 console.log('URL bytes:', new TextEncoder().encode(supabaseUrl).length)
 console.log('URL chars:', Array.from(supabaseUrl).map(c => `${c}(${c.charCodeAt(0)})`).join(','))
-// Export key for debugging
-(window as any).DEBUG_SUPABASE_KEY = supabaseKey
-(window as any).DEBUG_KEY_LENGTH = supabaseKey?.length
-(window as any).DEBUG_KEY_HEX = supabaseKey ? Array.from(supabaseKey).map((c: string) => c.charCodeAt(0).toString(16).padStart(2, '0')).join(' ') : ''
-
 console.log('Key (FULL - COPY THIS):', supabaseKey)
 console.log('Key (first 20 chars):', supabaseKey?.substring(0, 20) + '...')
 console.log('Key length:', supabaseKey?.length)
