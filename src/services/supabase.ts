@@ -1,8 +1,9 @@
 import { createClient } from '@supabase/supabase-js'
 
-// Use proxy URL to bypass DNS issues with direct Supabase connection
+// Use backend proxy to bypass IPv6 issues
+// Backend converts IPv6→IPv4 connection to Supabase
 const supabaseUrl = typeof window !== 'undefined'
-  ? `${window.location.origin}/api/supabase-proxy`
+  ? `${window.location.origin}/api/supabase`
   : (import.meta.env.VITE_SUPABASE_URL || '')
 
 const supabaseKey = (import.meta.env.VITE_SUPABASE_ANON_KEY || '') as string
