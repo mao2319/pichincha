@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Menu, X, ChevronDown, Zap, Settings } from 'lucide-react'
+import { Menu, X, Zap, Settings } from 'lucide-react'
 
 interface NavItem {
   id: string

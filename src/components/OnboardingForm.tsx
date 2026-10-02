@@ -3,12 +3,11 @@ import { ProspectData } from '@/types'
 import { apiService } from '@/services/api'
 import { useAgentStore } from '@/stores/agentStore'
 import toast from 'react-hot-toast'
-import { Loader2, Check } from 'lucide-react'
+import { Loader2 } from 'lucide-react'
 
 export function OnboardingForm() {
   const [formData, setFormData] = useState<Partial<ProspectData> & { product?: string }>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [lastRequestId, setLastRequestId] = useState<string | null>(null)
   const { isProcessing } = useAgentStore()
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -43,7 +42,6 @@ export function OnboardingForm() {
         throw new Error(response.error || 'Failed to start onboarding')
       }
 
-      setLastRequestId(response.request_id || null)
       toast.success(response.message)
       setFormData({})
     } catch (error) {

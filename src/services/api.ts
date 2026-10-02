@@ -156,7 +156,10 @@ export const apiService = {
       const result = await supabaseDb.listOnboardingRequests(filters)
       return {
         success: true,
-        data: result,
+        data: {
+          requests: result.requests,
+          count: result.count || 0,
+        },
       }
     } catch (error) {
       return {

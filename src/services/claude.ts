@@ -1,12 +1,14 @@
 import Anthropic from '@anthropic-ai/sdk'
 import { VerificationResult } from '@/types'
 
-const apiKey = import.meta.env.VITE_ANTHROPIC_API_KEY as string
+const apiKey = import.meta.env.VITE_ANTHROPIC_API_KEY as string | undefined
 if (!apiKey) {
   throw new Error('Missing VITE_ANTHROPIC_API_KEY environment variable')
 }
 
-const client = new Anthropic({ apiKey })
+const validApiKey: string = apiKey
+
+const client = new Anthropic({ apiKey: validApiKey })
 
 export interface ClaudeMessageOptions {
   model?: string

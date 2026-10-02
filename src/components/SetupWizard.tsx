@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { CheckCircle, AlertCircle, Copy, ExternalLink, X } from 'lucide-react'
+import { CheckCircle, Copy, ExternalLink, X } from 'lucide-react'
 import toast from 'react-hot-toast'
 
 interface SetupWizardProps {

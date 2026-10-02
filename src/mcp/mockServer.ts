@@ -32,7 +32,7 @@ export interface PrepareDocumentationResult {
 export const mockMcpServer = {
   // Tool 1: Verify Identity
   async verify_identity(
-    documentId: string
+    _documentId: string
   ): Promise<VerifyIdentityResult> {
     // Simulate API call delay
     await new Promise((resolve) => setTimeout(resolve, 500))
@@ -56,7 +56,7 @@ export const mockMcpServer = {
   // Tool 2: Check Risk Lists
   async check_risk_lists(
     name: string,
-    documentId: string
+    _documentId: string
   ): Promise<CheckRiskListsResult> {
     // Simulate API call delay
     await new Promise((resolve) => setTimeout(resolve, 300))
@@ -181,12 +181,12 @@ export const mockMcpServer = {
     prospectName: string,
     documentId: string,
     product: string,
-    clientData?: any
+    _clientData?: any
   ) {
     const [identity, risk, documentation] = await Promise.all([
       this.verify_identity(documentId),
       this.check_risk_lists(prospectName, documentId),
-      this.prepare_documentation(product, clientData || {}),
+      this.prepare_documentation(product, {}),
     ])
 
     return {

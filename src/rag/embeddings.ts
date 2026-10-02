@@ -3,7 +3,7 @@ import { supabase } from '@/services/supabase'
 export const embeddingsService = {
   // Generate embeddings using Claude API
   async generateEmbedding(text: string): Promise<number[]> {
-    const apiKey = import.meta.env.VITE_ANTHROPIC_API_KEY as string
+    const apiKey = (import.meta.env.VITE_ANTHROPIC_API_KEY || '') as string
     if (!apiKey) {
       throw new Error('Missing VITE_ANTHROPIC_API_KEY')
     }

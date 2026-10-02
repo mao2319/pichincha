@@ -2,13 +2,9 @@ import { useState } from 'react'
 import { mcpConfig } from '@/mcp/config'
 import {
   ChevronRight,
-  Cloud,
-  Cpu,
-  Zap,
   Network,
   BookOpen,
   CheckCircle,
-  AlertCircle,
 } from 'lucide-react'
 
 interface DashboardProps {
@@ -16,7 +12,6 @@ interface DashboardProps {
 }
 
 export function Dashboard({ activeSection }: DashboardProps) {
-  const [selectedModel, setSelectedModel] = useState<string | null>(null)
 
   const models = [
     {
