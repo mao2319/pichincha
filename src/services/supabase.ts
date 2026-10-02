@@ -1,5 +1,8 @@
 import { createClient } from '@supabase/supabase-js'
 
+// Force rebuild: 2026-10-02T15:00:00Z
+// Vercel rebuild trigger - ensures fresh compilation
+
 const supabaseUrl = (import.meta.env.VITE_SUPABASE_URL || '') as string
 const supabaseKey = (import.meta.env.VITE_SUPABASE_ANON_KEY || '') as string
 
