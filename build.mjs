@@ -37,6 +37,16 @@ if (fs.existsSync(envFile)) {
   });
 }
 
+// Create .env file from process.env for Vite to read during build
+// Vite reads .env files at compile time to replace VITE_* variables
+const envContent = requiredVars
+  .map(v => `${v}=${process.env[v] || ''}`)
+  .join('\n');
+
+const envPath = path.join(__dirname, '.env');
+fs.writeFileSync(envPath, envContent);
+console.log('Created .env file for Vite build with current environment variables');
+
 // Check for required environment variables
 const missingVars = requiredVars.filter(v => !process.env[v]);
 if (missingVars.length > 0) {
