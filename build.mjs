@@ -5,10 +5,20 @@ import { execSync } from 'child_process';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-// Load environment variables from .env.production if they don't exist
+// Load environment variables from multiple sources
+console.log('Loading environment variables...');
+
+const requiredVars = [
+  'VITE_SUPABASE_URL',
+  'VITE_SUPABASE_ANON_KEY',
+  'VITE_SUPABASE_PUBLISHABLE_KEY',
+  'VITE_ANTHROPIC_API_KEY'
+];
+
+// Try to load from .env.production first (local development)
 const envFile = path.join(__dirname, '.env.production');
 if (fs.existsSync(envFile)) {
-  console.log('Loading environment variables from .env.production...');
+  console.log('Reading from .env.production...');
   const envContent = fs.readFileSync(envFile, 'utf8');
   const lines = envContent.split('\n');
 
@@ -21,15 +31,22 @@ if (fs.existsSync(envFile)) {
         const value = trimmed.substring(equalsIndex + 1);
         if (key && !process.env[key]) {
           process.env[key] = value;
-          console.log(`  Set ${key}=${value.substring(0, 20)}...`);
         }
       }
     }
   });
-  console.log('Environment variables loaded successfully.\n');
-} else {
-  console.log('Warning: .env.production not found, using system environment variables\n');
 }
+
+// Check for required environment variables
+const missingVars = requiredVars.filter(v => !process.env[v]);
+if (missingVars.length > 0) {
+  console.warn(`⚠️  Missing environment variables: ${missingVars.join(', ')}`);
+  console.warn('These should be configured in Vercel project settings.');
+} else {
+  console.log('✅ All required environment variables are set');
+}
+
+console.log('');
 
 // Run Vite build
 try {
