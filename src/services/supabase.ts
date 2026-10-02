@@ -5,6 +5,9 @@ const supabaseKey = (import.meta.env.VITE_SUPABASE_ANON_KEY || '') as string
 
 console.log('Supabase Configuration:')
 console.log('URL:', supabaseUrl)
+console.log('URL length:', supabaseUrl?.length)
+console.log('URL bytes:', new TextEncoder().encode(supabaseUrl).length)
+console.log('URL chars:', Array.from(supabaseUrl).map(c => `${c}(${c.charCodeAt(0)})`).join(','))
 console.log('Key (first 20 chars):', supabaseKey?.substring(0, 20) + '...')
 console.log('Key length:', supabaseKey?.length)
 
