@@ -3,7 +3,7 @@ import { createClient } from '@supabase/supabase-js'
 // Use CORS proxy to bypass IPv6 DNS issues
 // Resolves: ISP/network blocks IPv6, but Supabase only has IPv6 DNS
 const supabaseUrl = typeof window !== 'undefined'
-  ? 'https://api.allorigins.win/raw?url=https://db.vhcapsgwemepzvlubtdy.supabase.co'
+  ? 'https://thingproxy.freeboard.io/fetch/https://db.vhcapsgwemepzvlubtdy.supabase.co'
   : (import.meta.env.VITE_SUPABASE_URL || '')
 
 const supabaseKey = (import.meta.env.VITE_SUPABASE_ANON_KEY || '') as string
