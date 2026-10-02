@@ -1,5 +1,8 @@
 import { createClient } from '@supabase/supabase-js';
-const supabaseUrl = (import.meta.env.VITE_SUPABASE_URL || '');
+// Use proxy URL to bypass DNS issues with direct Supabase connection
+const supabaseUrl = typeof window !== 'undefined'
+    ? `${window.location.origin}/api/supabase-proxy`
+    : (import.meta.env.VITE_SUPABASE_URL || '');
 const supabaseKey = (import.meta.env.VITE_SUPABASE_ANON_KEY || '');
 console.log('Supabase Configuration:');
 console.log('URL:', supabaseUrl);
