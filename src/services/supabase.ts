@@ -19,14 +19,24 @@ export const supabase = createClient(supabaseUrl, supabaseKey, {
 export const supabaseDb = {
   // Prospect operations
   async createProspect(data: any) {
-    const { data: prospect, error } = await supabase
-      .from('prospects')
-      .insert([data])
-      .select()
-      .single()
+    try {
+      console.log('Creating prospect with data:', data)
+      const { data: prospect, error } = await supabase
+        .from('prospects')
+        .insert([data])
+        .select()
+        .single()
 
-    if (error) throw new Error(error.message)
-    return prospect
+      if (error) {
+        console.error('Supabase insert error:', error)
+        throw new Error(`Failed to create prospect: ${error.message} (code: ${error.code})`)
+      }
+      console.log('Prospect created successfully:', prospect)
+      return prospect
+    } catch (error) {
+      console.error('createProspect error:', error)
+      throw error
+    }
   },
 
   async getProspect(id: string) {
@@ -42,14 +52,24 @@ export const supabaseDb = {
 
   // Onboarding Request operations
   async createOnboardingRequest(data: any) {
-    const { data: request, error } = await supabase
-      .from('onboarding_requests')
-      .insert([data])
-      .select()
-      .single()
+    try {
+      console.log('Creating onboarding request with data:', data)
+      const { data: request, error } = await supabase
+        .from('onboarding_requests')
+        .insert([data])
+        .select()
+        .single()
 
-    if (error) throw new Error(error.message)
-    return request
+      if (error) {
+        console.error('Supabase insert error:', error)
+        throw new Error(`Failed to create request: ${error.message} (code: ${error.code})`)
+      }
+      console.log('Onboarding request created successfully:', request)
+      return request
+    } catch (error) {
+      console.error('createOnboardingRequest error:', error)
+      throw error
+    }
   },
 
   async getOnboardingRequest(id: string) {
