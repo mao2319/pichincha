@@ -1,21 +1,9 @@
 import { supabase } from '@/services/supabase'
 
-interface EmbeddingParams {
-  input: string
-  model?: string
-}
-
-interface EmbeddingResponse {
-  embedding: number[]
-  usage: {
-    input_tokens: number
-  }
-}
-
 export const embeddingsService = {
   // Generate embeddings using Claude API
   async generateEmbedding(text: string): Promise<number[]> {
-    const apiKey = import.meta.env.VITE_ANTHROPIC_API_KEY
+    const apiKey = import.meta.env.VITE_ANTHROPIC_API_KEY as string
     if (!apiKey) {
       throw new Error('Missing VITE_ANTHROPIC_API_KEY')
     }

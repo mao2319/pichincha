@@ -69,10 +69,20 @@ export const mcpConfig = {
 
     try {
       if (server.type === 'web-interface') {
-        const response = await fetch((server.config.url as string) + '/health', {
-          timeout: 5000,
-        })
-        return response.ok
+        const controller = new AbortController()
+        const timeoutId = setTimeout(() => controller.abort(), 5000)
+
+        try {
+          const response = await fetch(
+            (server.config.url as string) + '/health',
+            { signal: controller.signal }
+          )
+          clearTimeout(timeoutId)
+          return response.ok
+        } catch {
+          clearTimeout(timeoutId)
+          return false
+        }
       }
       // Add other server type health checks as needed
       return true

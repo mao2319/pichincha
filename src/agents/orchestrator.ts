@@ -62,7 +62,6 @@ export class AgentOrchestrator {
   }
 
   private async orchestratePlan(): Promise<void> {
-    const trace = this.createTrace('orchestrador', 'planning')
     this.store.updateAgentStatus('orchestrador', 'processing')
 
     try {
@@ -268,7 +267,7 @@ export class AgentOrchestrator {
     return 'All verifications passed. Proceed with approval.'
   }
 
-  private createTrace(agentId: string, action: string): AgentTrace {
+  private createTrace(agentId: string): AgentTrace {
     const agent = this.store.getAgent(agentId)
     return {
       agentId,

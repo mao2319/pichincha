@@ -1,7 +1,7 @@
 import Anthropic from '@anthropic-ai/sdk'
-import { AgentTrace, VerificationResult } from '@/types'
+import { VerificationResult } from '@/types'
 
-const apiKey = import.meta.env.VITE_ANTHROPIC_API_KEY
+const apiKey = import.meta.env.VITE_ANTHROPIC_API_KEY as string
 if (!apiKey) {
   throw new Error('Missing VITE_ANTHROPIC_API_KEY environment variable')
 }

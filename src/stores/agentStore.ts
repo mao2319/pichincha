@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { Agent, AgentType, OnboardingRequest, AgentTrace } from '@/types'
+import { Agent, OnboardingRequest, AgentTrace } from '@/types'
 
 interface AgentStore {
   agents: Agent[]
