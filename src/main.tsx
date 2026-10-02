@@ -9,3 +9,4 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <App />
   </React.StrictMode>,
 )
+// Fixed Supabase project reference - using ProjectVentas365 (pcutoqboolsopzqvdiqe)
