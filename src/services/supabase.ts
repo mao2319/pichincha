@@ -10,6 +10,13 @@ console.log('URL bytes:', new TextEncoder().encode(supabaseUrl).length)
 console.log('URL chars:', Array.from(supabaseUrl).map(c => `${c}(${c.charCodeAt(0)})`).join(','))
 console.log('Key (first 20 chars):', supabaseKey?.substring(0, 20) + '...')
 console.log('Key length:', supabaseKey?.length)
+console.log('Key (LAST 50 chars):', '...' + supabaseKey?.substring(supabaseKey.length - 50))
+console.log('Key first char code:', supabaseKey?.charCodeAt(0))
+console.log('Key last char code:', supabaseKey?.charCodeAt(supabaseKey.length - 1))
+// Check for whitespace
+const hasLeadingSpace = supabaseKey?.[0] === ' '
+const hasTrailingSpace = supabaseKey?.[supabaseKey.length - 1] === ' '
+console.log('Has leading/trailing space:', hasLeadingSpace, hasTrailingSpace)
 
 if (!supabaseUrl || !supabaseKey) {
   throw new Error('Missing Supabase environment variables')
