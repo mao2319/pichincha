@@ -1,9 +1,9 @@
 import { createClient } from '@supabase/supabase-js'
 
-// Use backend proxy to bypass IPv6 issues
-// Backend converts IPv6→IPv4 connection to Supabase
+// Use CORS proxy to bypass IPv6 DNS issues
+// Resolves: ISP/network blocks IPv6, but Supabase only has IPv6 DNS
 const supabaseUrl = typeof window !== 'undefined'
-  ? `${window.location.origin}/api/supabase`
+  ? 'https://cors-anywhere.herokuapp.com/https://db.vhcapsgwemepzvlubtdy.supabase.co'
   : (import.meta.env.VITE_SUPABASE_URL || '')
 
 const supabaseKey = (import.meta.env.VITE_SUPABASE_ANON_KEY || '') as string
