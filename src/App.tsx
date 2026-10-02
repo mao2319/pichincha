@@ -11,7 +11,7 @@ import { supabaseDb } from '@/services/supabase'
 
 function App() {
   const [activeSection, setActiveSection] = useState<string | null>(null)
-  const [showSetup, setShowSetup] = useState(true)
+  const [showSetup, setShowSetup] = useState(false)
   const { initializeAgents, setCurrentRequest } = useAgentStore()
 
   useEffect(() => {
