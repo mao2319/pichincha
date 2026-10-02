@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Toaster } from 'react-hot-toast'
 import { Header } from '@/components/Header'
 import { Dashboard } from '@/components/Dashboard'
+import { SetupWizard } from '@/components/SetupWizard'
 import { AgentSidebar } from '@/components/AgentSidebar'
 import { OnboardingForm } from '@/components/OnboardingForm'
 import { RequestDetailsPanel } from '@/components/RequestDetailsPanel'
@@ -10,6 +11,7 @@ import { supabaseDb } from '@/services/supabase'
 
 function App() {
   const [activeSection, setActiveSection] = useState<string | null>(null)
+  const [showSetup, setShowSetup] = useState(true)
   const { initializeAgents, setCurrentRequest } = useAgentStore()
 
   useEffect(() => {
@@ -40,6 +42,8 @@ function App() {
 
   return (
     <div className="flex flex-col h-screen bg-gray-50">
+      {showSetup && <SetupWizard onClose={() => setShowSetup(false)} />}
+
       <Header />
 
       {isViewingDashboard ? (
