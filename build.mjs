@@ -39,15 +39,22 @@ if (fs.existsSync(envFile)) {
   });
 }
 
-// Create .env file from process.env for Vite to read during build
-// Vite reads .env files at compile time to replace VITE_* variables
+// Write to BOTH .env and .env.production so Vite reads the correct values
+// (Vite prioritizes .env.production when it exists)
 const envContent = requiredVars
   .map(v => `${v}=${process.env[v] || ''}`)
   .join('\n');
 
+// Write .env (used as fallback)
 const envPath = path.join(__dirname, '.env');
 fs.writeFileSync(envPath, envContent);
-console.log('Created .env file for Vite build with current environment variables');
+console.log('Created .env file for Vite build');
+
+// CRITICAL: Also ensure .env.production has the values from process.env
+// This guarantees Vite gets the correct values regardless of how it loads .env files
+const envProductionPath = path.join(__dirname, '.env.production');
+fs.writeFileSync(envProductionPath, envContent);
+console.log('Updated .env.production with current environment variables');
 
 // Check for required environment variables
 const missingVars = requiredVars.filter(v => !process.env[v]);
