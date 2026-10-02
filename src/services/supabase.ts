@@ -1,9 +1,7 @@
 import { createClient } from '@supabase/supabase-js'
 
-// Use CORS proxy to bypass IPv6 DNS issues
-// Resolves: ISP/network blocks IPv6, but Supabase only has IPv6 DNS
 const supabaseUrl = typeof window !== 'undefined'
-  ? 'https://young-sound-69f2.mao2319-391.workers.dev'
+  ? 'https://young-sound-69f2-proxy.mao2319-391.workers.dev'
   : (import.meta.env.VITE_SUPABASE_URL || '')
 
 const supabaseKey = (import.meta.env.VITE_SUPABASE_ANON_KEY || '') as string
