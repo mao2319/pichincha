@@ -101,7 +101,7 @@ export const mockMcpServer = {
   // Tool 3: Prepare Documentation
   async prepare_documentation(
     product: string,
-    clientData: any
+    _clientData?: any
   ): Promise<PrepareDocumentationResult> {
     // Simulate API call delay
     await new Promise((resolve) => setTimeout(resolve, 400))
@@ -180,8 +180,7 @@ export const mockMcpServer = {
   async verifyAll(
     prospectName: string,
     documentId: string,
-    product: string,
-    _clientData?: any
+    product: string
   ) {
     const [identity, risk, documentation] = await Promise.all([
       this.verify_identity(documentId),

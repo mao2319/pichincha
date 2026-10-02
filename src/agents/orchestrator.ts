@@ -4,7 +4,6 @@ import { useAgentStore } from '@/stores/agentStore'
 import {
   ProspectData,
   OnboardingRequest,
-  AgentTrace,
   VerificationResult,
 } from '@/types'
 
@@ -265,20 +264,6 @@ export class AgentOrchestrator {
     if (documentation !== 'complete')
       return 'Complete documentation submission required.'
     return 'All verifications passed. Proceed with approval.'
-  }
-
-  private createTrace(agentId: string): AgentTrace {
-    const agent = this.store.getAgent(agentId)
-    return {
-      agentId,
-      agentName: agent?.name || agentId,
-      agentType: agent?.type || ('orchestrador' as const),
-      startTime: new Date().toISOString(),
-      status: 'in_progress',
-      input: {},
-      output: {},
-      model: agent?.model || 'claude-opus-5-5',
-    }
   }
 
   private handleAgentError(agentId: string, error: unknown): void {

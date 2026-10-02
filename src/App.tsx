@@ -10,7 +10,7 @@ import { useAgentStore } from '@/stores/agentStore'
 import { supabaseDb } from '@/services/supabase'
 
 function App() {
-  const [activeSection, setActiveSection] = useState<string | null>(null)
+  const [activeSection] = useState<string | null>(null)
   const [showSetup, setShowSetup] = useState(false)
   const { initializeAgents, setCurrentRequest } = useAgentStore()
 

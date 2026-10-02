@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { mcpConfig } from '@/mcp/config'
 import {
   ChevronRight,
@@ -184,8 +183,7 @@ export function Dashboard({ activeSection }: DashboardProps) {
             {models.map((model) => (
               <div
                 key={model.id}
-                className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow overflow-hidden cursor-pointer"
-                onClick={() => setSelectedModel(model.id)}
+                className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow overflow-hidden"
               >
                 <div className="h-2 bg-gradient-to-r from-blue-500 to-blue-700"></div>
                 <div className="p-6">
