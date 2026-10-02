@@ -3,6 +3,11 @@ import { createClient } from '@supabase/supabase-js'
 const supabaseUrl = (import.meta.env.VITE_SUPABASE_URL || '') as string
 const supabaseKey = (import.meta.env.VITE_SUPABASE_ANON_KEY || '') as string
 
+console.log('Supabase Configuration:')
+console.log('URL:', supabaseUrl)
+console.log('Key (first 20 chars):', supabaseKey?.substring(0, 20) + '...')
+console.log('Key length:', supabaseKey?.length)
+
 if (!supabaseUrl || !supabaseKey) {
   throw new Error('Missing Supabase environment variables')
 }
@@ -14,6 +19,8 @@ export const supabase = createClient(supabaseUrl, supabaseKey, {
     detectSessionInUrl: true,
   },
 })
+
+console.log('Supabase client initialized successfully')
 
 // Database operations
 export const supabaseDb = {
