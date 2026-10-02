@@ -1,13 +1,4 @@
-import express from 'express'
-import cors from 'cors'
-
-const app = express()
-
-app.use(cors())
-app.use(express.json())
-
-// Proxy endpoint for Supabase
-app.all('/api/supabase/*', async (req, res) => {
+export default async function handler(req, res) {
   try {
     const supabaseUrl = process.env.VITE_SUPABASE_URL
     const supabaseKey = process.env.VITE_SUPABASE_ANON_KEY
@@ -16,7 +7,7 @@ app.all('/api/supabase/*', async (req, res) => {
       return res.status(500).json({ error: 'Missing Supabase config' })
     }
 
-    // Build Supabase URL
+    // Extract path after /api/supabase
     const path = req.url.replace('/api/supabase', '')
     const targetUrl = `${supabaseUrl}${path}`
 
@@ -30,7 +21,7 @@ app.all('/api/supabase/*', async (req, res) => {
         'Authorization': `Bearer ${supabaseKey}`,
         'Content-Type': 'application/json',
       },
-      body: req.method !== 'GET' ? JSON.stringify(req.body) : undefined,
+      body: req.method !== 'GET' && req.body ? JSON.stringify(req.body) : undefined,
     })
 
     const data = await response.json().catch(() => ({}))
@@ -39,11 +30,4 @@ app.all('/api/supabase/*', async (req, res) => {
     console.error('Proxy error:', error)
     res.status(500).json({ error: error.message })
   }
-})
-
-// Health check
-app.get('/health', (req, res) => {
-  res.json({ status: 'ok' })
-})
-
-export default app
+}
