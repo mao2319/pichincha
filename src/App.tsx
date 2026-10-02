@@ -20,7 +20,7 @@ function App() {
 
     // Subscribe to real-time updates
     const subscription = supabaseDb.subscribeToOnboardingRequests(
-      (payload) => {
+      (payload: any) => {
         if (payload.eventType === 'INSERT' || payload.eventType === 'UPDATE') {
           // Fetch and update current request if needed
           supabaseDb

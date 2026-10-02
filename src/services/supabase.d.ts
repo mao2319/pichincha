@@ -12,7 +12,7 @@ export declare const supabaseDb: {
     createAgentTrace(data: any): Promise<any>;
     updateAgentTrace(id: string, updates: any): Promise<any>;
     getStatistics(): Promise<any>;
-    subscribeToOnboardingRequests(callback: (payload: any) => void, _statusFilter?: string): import("@supabase/realtime-js").RealtimeChannel;
-    subscribeToAgentTraces(requestId: string, callback: (payload: any) => void): import("@supabase/realtime-js").RealtimeChannel;
+    subscribeToOnboardingRequests(callback: any, _statusFilter?: any): import("@supabase/realtime-js").RealtimeChannel;
+    subscribeToAgentTraces(requestId: string, callback: any): import("@supabase/realtime-js").RealtimeChannel;
 };
 //# sourceMappingURL=supabase.d.ts.map
