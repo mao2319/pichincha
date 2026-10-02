@@ -1,6 +1,25 @@
 import { createClient } from '@supabase/supabase-js';
-const supabaseUrl = (import.meta.env.VITE_SUPABASE_URL || '');
-const supabaseKey = (import.meta.env.VITE_SUPABASE_ANON_KEY || '');
+// Force rebuild: 2026-10-02T15:00:00Z
+// Vercel rebuild trigger - ensures fresh compilation
+// DEBUGGING: Use hardcoded values to bypass environment variable issues
+const supabaseUrl = 'https://db.vhcapsgwemepzvlubtdy.supabase.co';
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZoY2Fwc2d3ZW1lcHp2bHVidGR5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA4NjIzMzMsImV4cCI6MjEwNjQzODMzM30.EU2dRNmVnKIhBOKHXzvb5kgWj40KEsIxJgeUQNZNx_Q';
+console.log('Supabase Configuration:');
+console.log('URL:', supabaseUrl);
+console.log('URL length:', supabaseUrl?.length);
+console.log('URL bytes:', new TextEncoder().encode(supabaseUrl).length);
+console.log('URL chars:', Array.from(supabaseUrl).map(c => `${c}(${c.charCodeAt(0)})`).join(','));
+console.log('Key (FULL - COPY THIS):', supabaseKey);
+console.log('Key (first 20 chars):', supabaseKey?.substring(0, 20) + '...');
+console.log('Key length:', supabaseKey?.length);
+console.log('Use window.DEBUG_SUPABASE_KEY to access the key object');
+console.log('Key (LAST 50 chars):', '...' + supabaseKey?.substring(supabaseKey.length - 50));
+console.log('Key first char code:', supabaseKey?.charCodeAt(0));
+console.log('Key last char code:', supabaseKey?.charCodeAt(supabaseKey.length - 1));
+// Check for whitespace
+const hasLeadingSpace = supabaseKey?.[0] === ' ';
+const hasTrailingSpace = supabaseKey?.[supabaseKey.length - 1] === ' ';
+console.log('Has leading/trailing space:', hasLeadingSpace, hasTrailingSpace);
 if (!supabaseUrl || !supabaseKey) {
     throw new Error('Missing Supabase environment variables');
 }
@@ -11,18 +30,29 @@ export const supabase = createClient(supabaseUrl, supabaseKey, {
         detectSessionInUrl: true,
     },
 });
+console.log('Supabase client initialized successfully');
 // Database operations
 export const supabaseDb = {
     // Prospect operations
     async createProspect(data) {
-        const { data: prospect, error } = await supabase
-            .from('prospects')
-            .insert([data])
-            .select()
-            .single();
-        if (error)
-            throw new Error(error.message);
-        return prospect;
+        try {
+            console.log('Creating prospect with data:', data);
+            const { data: prospect, error } = await supabase
+                .from('prospects')
+                .insert([data])
+                .select()
+                .single();
+            if (error) {
+                console.error('Supabase insert error:', error);
+                throw new Error(`Failed to create prospect: ${error.message} (code: ${error.code})`);
+            }
+            console.log('Prospect created successfully:', prospect);
+            return prospect;
+        }
+        catch (error) {
+            console.error('createProspect error:', error);
+            throw error;
+        }
     },
     async getProspect(id) {
         const { data, error } = await supabase
@@ -36,14 +66,24 @@ export const supabaseDb = {
     },
     // Onboarding Request operations
     async createOnboardingRequest(data) {
-        const { data: request, error } = await supabase
-            .from('onboarding_requests')
-            .insert([data])
-            .select()
-            .single();
-        if (error)
-            throw new Error(error.message);
-        return request;
+        try {
+            console.log('Creating onboarding request with data:', data);
+            const { data: request, error } = await supabase
+                .from('onboarding_requests')
+                .insert([data])
+                .select()
+                .single();
+            if (error) {
+                console.error('Supabase insert error:', error);
+                throw new Error(`Failed to create request: ${error.message} (code: ${error.code})`);
+            }
+            console.log('Onboarding request created successfully:', request);
+            return request;
+        }
+        catch (error) {
+            console.error('createOnboardingRequest error:', error);
+            throw error;
+        }
     },
     async getOnboardingRequest(id) {
         const { data, error } = await supabase

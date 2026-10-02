@@ -32,3 +32,5 @@ dist-ssr
 supabase/.branches
 supabase/functions/*/node_modules
 .env.production
+.vercel
+.env*

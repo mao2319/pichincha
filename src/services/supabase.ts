@@ -3,9 +3,8 @@ import { createClient } from '@supabase/supabase-js'
 // Force rebuild: 2026-10-02T15:00:00Z
 // Vercel rebuild trigger - ensures fresh compilation
 
-// DEBUGGING: Use hardcoded values to bypass environment variable issues
-const supabaseUrl = 'https://db.vhcapsgwemepzvlubtdy.supabase.co'
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZoY2Fwc2d3ZW1lcHp2bHVidGR5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA4NjIzMzMsImV4cCI6MjEwNjQzODMzM30.EU2dRNmVnKIhBOKHXzvb5kgWj40KEsIxJgeUQNZNx_Q'
+const supabaseUrl = (import.meta.env.VITE_SUPABASE_URL || '') as string
+const supabaseKey = (import.meta.env.VITE_SUPABASE_ANON_KEY || '') as string
 
 console.log('Supabase Configuration:')
 console.log('URL:', supabaseUrl)
