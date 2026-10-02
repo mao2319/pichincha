@@ -29,8 +29,10 @@ if (fs.existsSync(envFile)) {
       if (equalsIndex !== -1) {
         const key = trimmed.substring(0, equalsIndex);
         const value = trimmed.substring(equalsIndex + 1);
-        if (key && !process.env[key]) {
+        if (key) {
+          // ALWAYS overwrite with .env.production values, even if env var exists
           process.env[key] = value;
+          console.log(`  Loaded ${key} from .env.production`);
         }
       }
     }
